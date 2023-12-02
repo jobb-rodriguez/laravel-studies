@@ -224,3 +224,56 @@ Inside, you can create components with props inside.
     {{ $slot }}
 </div>
 ```
+
+# Controllers
+
+You can add controllers in ```app/Http/Controllers```.
+
+**Example**
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Listing;
+use Illuminate\Http\Request;
+
+class ListingController extends Controller
+{
+    // Show all listings
+    public function index(){
+        return view('listings', [
+            'listings' => Listing:all()
+        ])
+    }
+
+    // Show single listing
+    public function show(Listing $listing) {
+        return view('listings', [
+            'listing' => $listing 
+        ])
+    }
+}
+```
+
+```php
+// routes/web.php
+
+...
+
+// All Listings
+Route::get('/', [ListingController::class, 'index']);
+
+// Single Listing
+Route::get('/listings/{listing}', [ListingController::class, 'show']);
+
+// Common Resource Routes:
+// index  - Show all listings
+// show - Show single listing
+// create - Show form to create new listing
+// store - Store new listing
+// edit - Show form to edit listing
+// update - Update listing
+// destroy - Delete listing
+```
