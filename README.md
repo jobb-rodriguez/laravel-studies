@@ -470,3 +470,32 @@ class ListingController extends Controller
 
 // you can use apline.js to make the message disappear.
 ```
+
+# Keeping old data in form
+Inside ```<input />```, add the attribute ```value``` with the value ```{{old('company')}}```.
+
+Modify other fields as needed.
+
+# Pagination
+```php
+// Https/Controllers/ListingController.php
+class ListingController extends Controller
+{
+    public function index() {
+        return view('listings.index', [
+            'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(2)
+        ])
+        // you can also use 'simplePaginate' to remove numbers
+    }
+
+    ...
+}
+```
+
+```php
+// resources/views/listings/index.blade.php
+...
+<div>
+    {{ $listings->links() }}
+</div>
+```
