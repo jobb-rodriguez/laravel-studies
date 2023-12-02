@@ -409,6 +409,8 @@ public function store(Request $request) {
         'description' => 'required'
     ]);
 
+    Listing::create($formFields);
+
     return redirect('/');
 }
 ```
@@ -499,3 +501,73 @@ class ListingController extends Controller
     {{ $listings->links() }}
 </div>
 ```
+
+# File Upload
+
+# Edit Listing
+```php
+// route/web.php
+Route::get('listings/{listing}/edit', [ListingControler::class, 'edit']);
+```
+
+```php
+// Http/Contollers/ListingController.php
+public class ListingController extends Controller {
+    ...
+
+    public function edit(Listing $listing) {
+        return view('listings.edit', ['listing' => $listing]);
+    }
+}
+```
+
+```php
+// resources/views/listings/edit.blade.php
+// copy the create form
+<form method="POST"...>
+@csrf
+@method('PUT')
+
+<input ... value="{{$listing->location}}" />
+</form>
+```
+
+```php
+// Http/Contollers/ListingController.php
+public class ListingController extends Controller {
+    ...
+
+    public function update(Listing $listing) {
+        // view available validation attributes in documentation
+        $formFields = $request->validate([
+            'title' => 'required',
+            'company' => ['required']
+            'location' => 'required',
+            'website' => 'required',
+            'email' => ['required', 'email']
+            'tags' => 'required',
+            'description' => 'required'
+        ]);
+
+        $listing->create($formFields);
+
+        return back('')->with('message', 'Listing updated succesfully!');
+    }
+}
+```
+
+# Delete Listing
+
+# User Registration
+
+# Auth Links
+
+# User Logout
+
+# User Login
+
+# Auth and Guest Middleware
+
+# Relationships
+
+# User Autorization
