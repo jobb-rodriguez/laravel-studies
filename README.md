@@ -277,3 +277,34 @@ Route::get('/listings/{listing}', [ListingController::class, 'show']);
 // update - Update listing
 // destroy - Delete listing
 ```
+
+# Resource Method Naming
+Create a ```resources/views/listings``` folder.
+
+Then, you can implement this:
+
+| Old Name | New Name |
+| --- | --- |
+| ```listings.blade.php``` | ```index.blade.php``` |
+| ```listing.blade.php``` | ```show.blade.php``` |
+
+Then, you can update ```ListingController.php```.
+
+```php
+class ListingController extends Controller
+{
+    // Show all listings
+    public function index(){
+        return view('listings.index', [
+            'listings' => Listing:all()
+        ])
+    }
+
+    // Show single listing
+    public function show(Listing $listing) {
+        return view('listings.show', [
+            'listing' => $listing 
+        ])
+    }
+}
+```
