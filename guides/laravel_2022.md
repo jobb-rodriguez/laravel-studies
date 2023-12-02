@@ -685,4 +685,19 @@ Interact with the database
 ```terminal
 php artisan tinker
 ```
+
+# Add Ownership to Listings
+```php
+// Http/Controllers/ListingController.php
+
+public class ListingController extends Controller
+{
+    public function store() {
+        ...
+        $formFields['user_id'] = auth()->id();
+
+        Listing::create($formFields);
+    }
+}
+
 # User Authorization
