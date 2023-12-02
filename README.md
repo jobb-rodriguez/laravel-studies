@@ -438,3 +438,35 @@ class Listing extends Model
     ...
 }
 ```
+
+# Flash Messages
+```php
+// Http/Controllers/ListingController.php
+
+class ListingController extends Controller
+{
+    ...
+
+    // Method 1 - need to import session
+    // Session:flash('message', 'Listing Created');
+
+    // Method 2
+    return redirect('/')->with('message', 'Listing created succesfully!');
+
+    // message can be success, error, etc.
+    ...
+}
+```
+
+```php
+// resources/views/components/flash-message.blade.php
+@if(session()->has('message'))
+<div class="...">
+    <p>
+        {{session('message')}}
+    </p>
+</div>
+@endif
+
+// you can use apline.js to make the message disappear.
+```
