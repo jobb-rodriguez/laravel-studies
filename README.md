@@ -355,3 +355,60 @@ class ListingController extends Controller
     }
     ...
 }
+```
+
+# Create Listing Form
+```php
+// Http/Controllers/ListingController.php
+
+public function create() {
+    return view('listings.create');
+}
+```
+
+```php
+// routes/web.php
+
+Route::get('listings/create',
+[ListingController::class, 'create']);
+```
+
+# Validation and Store New Listing
+Use ```POST``` in forms.
+
+Add ```@csrf``` inside your ```<form>``` tag to prevent cross site scripting.
+
+```php
+// resources/views/listings/create.blade.php
+<form method="POST" actions="/listngs">
+@csrf
+
+...
+</form>
+```
+
+```php
+// routes/web.php
+
+Route::post('listings',
+[ListingController::class, 'store']);
+```
+
+```php
+// Http/Controllers/ListingController.php
+
+public function store(Request $request) {
+    // view available validation attributes in documentation
+    $formFields = $request->validate([
+        'title' => 'required',
+        'company' => ['required', Rule::unique('listings', 'company')]
+        'location' => 'required',
+        'website' => 'required',
+        'email' => ['required', 'email']
+        'tags' => 'required',
+        'description' => 'required'
+    ]);
+
+    return redirect('/');
+}
+```
