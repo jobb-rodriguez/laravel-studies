@@ -701,7 +701,18 @@ public class UserController extends Controller
 ```
 
 # Auth and Guest Middleware
+```php
+// route/web.php
 
+Route...->middlewate('auth');
+
+Route::get('/login', [UserController::class, 'login'])->name('login');
+```
+
+```php
+// Http/Middleware/Authenticate.php
+// Update this file when you want to update the Authentication Middleware
+```
 
 # Relationships
 
