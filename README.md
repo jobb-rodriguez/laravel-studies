@@ -157,3 +157,10 @@ Inside ```resources/views/```, create ```layout.blade.php``` file.
 ...
 @endsection
 ```
+
+# Adding Themes
+
+In the ```public``` folder, you can add an ```image``` folder.
+
+> [!NOTE]
+> For collections, you can use ```$listing->title``` instead of ```$listing['title']```.
