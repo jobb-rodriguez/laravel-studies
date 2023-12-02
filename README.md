@@ -179,3 +179,18 @@ Inside the ```paritals``` folder, create a ```_*.blade.php``` file. Paste the pa
 ```php
 @include('partials._hero')
 ```
+
+# Route Model Building
+```php
+Route::get('/listings/id{id}', function($id){
+    $listing = Listing::find($id);
+
+    if($listing) {
+        return view('listing', [
+            'listing' => $listing
+        ]);
+    } else {
+        abort('404');
+    }
+})
+```
