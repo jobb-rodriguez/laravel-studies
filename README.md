@@ -308,3 +308,20 @@ class ListingController extends Controller
     }
 }
 ```
+
+# Layout Component
+```php
+// resources/views/components/layout.blade.php
+...
+<main>
+    {{$slot}}
+</main>
+...
+```
+
+```php
+// resources/show.blade.php
+<x-layout>
+...
+</x-layout>
+```
