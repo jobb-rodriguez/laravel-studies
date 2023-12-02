@@ -423,3 +423,18 @@ public function store(Request $request) {
 // add this to every field
 </form>
 ```
+
+# Mass Assignment Rule
+```php
+// Models/Listings.php
+// $fillable = properties that can be mass assignable. Anything not in the array cannot be mass assigned. $guarded = properties that cannot be mass assignable, allowing all others through.
+
+class Listing extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['title', 'company', 'location', 'website', 'email', 'description', 'tags'];
+
+    ...
+}
+```
