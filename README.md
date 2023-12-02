@@ -412,3 +412,14 @@ public function store(Request $request) {
     return redirect('/');
 }
 ```
+
+
+```php
+// resources/views/listings/create.blade.php
+<form method="POST" actions="/listngs">
+@error('company')
+    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+@enderror
+// add this to every field
+</form>
+```
