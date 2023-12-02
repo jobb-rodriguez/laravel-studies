@@ -1,3 +1,5 @@
+[Reference Repository](https://github.com/bradtraversy/laragigs)
+
 # Routes
 
 ```web.php``` for basic routing.
@@ -669,7 +671,9 @@ public class UserController extends Controller
 ```php
 // route/web.php
 
-Route...->middlewate('auth');
+Route...->middleware('auth');
+
+// For Register and Login, use ...->middleware('guest');
 
 Route::get('/login', [UserController::class, 'login'])->name('login');
 ```
@@ -699,5 +703,47 @@ public class ListingController extends Controller
         Listing::create($formFields);
     }
 }
+```
+
+# Manage Listings
+```php
+Route::get('/listings', [ListingController::class, 'manage'])->middleare('auth');
+```
+
+```php
+// Http/Controllers/ListingController.php
+
+public class ListingController extends Controller
+{
+    public function manager() {
+        return view('listings.manage', ['listings' => auth()->user()->listings()->get());
+    }
+}
+```
+
+```php
+// resources/views/listings/manage.blade.php
+<x-layout>
+// Display list of articles with actions (edit, delete).
+</x-layout>
+```
 
 # User Authorization
+```php
+// Http/Controllers/ListingControllers.php
+
+public class ListingControllers extend Controllers {
+    public function update(...)
+    {
+        if($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+    }
+    public function destroy(...)
+    {
+        if($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+    }
+}
+```
