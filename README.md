@@ -194,3 +194,33 @@ Route::get('/listings/id{id}', function($id){
     }
 })
 ```
+
+# Blade Components
+Create a ```resources/views/components``` folder.
+
+Inside, you can create components with props inside.
+
+```php
+// resources/views/components/listing-card.blade.php
+@props(['listing'])
+
+<x-card>
+    {{ $listing->location }}
+</x-card>
+```
+
+```php
+// resources/views/listings.blade.php
+...
+
+@foreach($listings as $listing)
+    <x-listing-card :listing="$listing" />
+@endforeach
+```
+
+```php
+// resources/views/components/card.blade.php
+<div {{$atttributes->merge(['class' => 'bg-gray-50 border border-gray-200 rounded p-6'])}}>
+    {{ $slot }}
+</div>
+```
