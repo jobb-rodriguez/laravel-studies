@@ -45,8 +45,8 @@ You can use ```{{}}``` for calling data.
 
 You can also use directives like ```@foreach``` and ```@unless```.
 
-# Basic Model Creation
-
+# Model Creation
+## Basic (Foundational)
 Inside ```app/Models/```, you can create a model php file.
 
 The syntax looks something like this:
@@ -71,6 +71,14 @@ class Listing {
 }
 ```
 
+## Eloquent ORM
+```terminal
+php artisan make:model Listing
+```
+
+Laravel automatically generates a listing model for you with ```all()``` and ```find($id)``` inherited from ```Model```.
+
+## Using the Listing Model
 ```php
 // routes/web.php
 
@@ -88,4 +96,64 @@ Route::get('/listings/id', function($id) {
         'listing' => Listing::find($id);
     ]);
 });
+```
+
+# Database
+1. Update ```config/database.php``` based on the databse you will use.
+2. Update ```.env``` based on the settings of your database.
+
+## Updating Data in the Database
+This command will update the database with the changes made in ```database/seeders/DatabaseSeeder.php```.
+
+**Add**
+
+```php
+Listing::create([<INSERT_DATA_HERE>])
+```
+
+**Command**
+
+```terminal
+php artisan migrate:refresh --seed
+```
+
+## Factory Creation
+```terminal
+php artisan make:factory ListingFactory
+```
+
+This creates ```database/factories/ListingFactory.php```. It allows you to define default factory values.
+
+**Using Factory in ```DatabaseSeeder.php```**
+
+```php
+Listing::factory(6)->create();
+```
+
+Run the migrate seed command after.
+
+> [!NOTE]
+> Read the documentation to view the different functions for creating dummy data.
+
+# Creating Layouts
+Inside ```resources/views/```, create ```layout.blade.php``` file.
+
+```html
+<!-- remember that this is layout.blade.php -->
+...
+<body>
+    <!-- Blade files that extends this layout will appear here. -->
+    @yield('content')
+</body
+...
+```
+
+**Child Blade File**
+
+```php
+@extends('layout');
+
+@section('content')
+...
+@endsection
 ```
