@@ -162,5 +162,20 @@ Inside ```resources/views/```, create ```layout.blade.php``` file.
 
 In the ```public``` folder, you can add an ```image``` folder.
 
+**Using Images**
+```php
+<img src="{{asset('images/no-image.png')}}" />
+```
+
 > [!NOTE]
 > For collections, you can use ```$listing->title``` instead of ```$listing['title']```.
+
+# Template Partials
+Create a ```resources/views/partials``` folder to trim down your code.
+
+Inside the ```paritals``` folder, create a ```_*.blade.php``` file. Paste the partial code.
+
+**Using Template Partials**
+```php
+@include('partials._hero')
+```
