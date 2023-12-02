@@ -555,18 +555,153 @@ public class ListingController extends Controller {
     }
 }
 ```
+```php
+// route/web.php
+Route::put('listings/{listing}/edit', [ListingControler::class, 'update']);
+```
 
 # Delete Listing
+```php
+// resources/views/listings/show.blade.php
+// copy the create form
+<form method="POST" action="listings/{{$listing->id}}">
+@csrf
+@method('DELETE')
 
+</form>
+```
+
+```php
+// route/web.php
+Route::delete('listings/{listing}/', [ListingControler::class, 'delete']);
+```
+
+```php
+// Http/Contollers/ListingController.php
+public class ListingController extends Controller {
+    ...
+
+    public function delete(Listing $listing) {
+        $listing->delete();
+
+        return back('')->with('message', 'Listing deleted succesfully!');
+    }
+}
+```
 # User Registration
+```php
+// route/web.php
+ 
+// import controller
+
+Route::get('/register', [UserController::class, 'create']);
+```
+
+```terminal
+php artisan make:controller UserController
+```
+
+Follow the standard process for creating users.
+
+
+```php
+// Http/Controllrs/UserController.php
+
+public class UserController extends Controller
+{
+    // Create user code
+
+    @auth()->login($user);
+
+    return redirect('/')->with('message', 'User Created and logged in');
+}
+```
 
 # Auth Links
+Use the **auth** directive to show element only if you're logged in.
+
+**Sample Use Cases**
+```php
+@auth
+Welcome {{ auth()->user()->name }}
+@else
+Login
+@endauth
+```
 
 # User Logout
+Create a logout button in the templates.
+
+```php
+// route/web.php
+ 
+// import controller
+
+Route::post('/logout', [UserController::class, 'logout']);
+```
+
+```php
+// Http/Controllrs/UserController.php
+
+public class UserController extends Controller
+{
+    public function logout(Request $request) {
+        auth()->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('message', 'You have been logged out!')
+    }
+}
+```
 
 # User Login
+```php
+// route/web.php
+ 
+// import controller
+
+Route::get('/login', [UserController::class, 'login']);
+
+Route::post('/users/authenticate');
+```
+
+```php
+<form method="POST" action="users/authetnicate">
+@csrf
+...
+</form>
+```
+
+```php
+// Http/Controllrs/UserController.php
+
+public class UserController extends Controller
+{
+    public function login() {
+        return view('users.login');
+    }
+
+    public function authenticate(Request $request) {
+        $formFields = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => 'required'
+        ])
+
+        if(auth()->attempt($formFields)) {
+            $request->session()->regenerate();
+
+            return redirect('/')->with('message', 'You are now logged in!');
+        })
+
+        return back()->withErrors(['email' -> 'Invalid Credentials']->onlyInput('email');
+    }
+}
+```
 
 # Auth and Guest Middleware
+
 
 # Relationships
 
