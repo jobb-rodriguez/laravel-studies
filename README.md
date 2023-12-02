@@ -325,3 +325,33 @@ class ListingController extends Controller
 ...
 </x-layout>
 ```
+
+# Filters
+```php
+// Http/Models/Listings.php
+
+...
+
+class Listing extends Model {
+    use HasFactory;
+
+    public function scopeFilter($query, array $filters) {
+        if($filters['tag'] ?? false) {
+            $query->where('tags', 'like', '%', . request('tag' . '%'))
+        }
+    }
+}
+```
+
+```php
+// Http/Controllers/ListingController.php
+
+class ListingController extends Controller
+{
+    public function index() {
+        return voew('listings.index', [
+            'listings' => Listing::latest()->filter(request(['tag'])))->get()
+        ])
+    }
+    ...
+}
